@@ -5,30 +5,30 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class PermanentAddress(models.Model):
-    house_no = models.TextField(max_length = 20)
-    street = models.TextField(max_length = 20)
-    village = models.CharField()
-    block = models.CharField()
-    city = models.CharField()
-    district = models.CharField()
-    state = models.CharField()
-    pincode = models.IntegerField(max_length = 6)
+    house_no = models.TextField(max_length=20)
+    street = models.TextField(max_length=20)
+    village = models.CharField(max_length=20)
+    block = models.CharField(max_length=20)
+    city = models.CharField(max_length=20)
+    district = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    pincode = models.CharField(max_length=6)
 
 class Current_Address(models.Model):
-    house_no = models.TextField(max_length = 20)
-    street = models.TextField(max_length = 20)
-    village = models.CharField()
-    block = models.CharField()
-    city = models.CharField()
-    district = models.CharField()
-    state = models.CharField()
-    pincode = models.IntegerField(max_length = 6)
+    house_no = models.TextField(max_length=20)
+    street = models.TextField(max_length=20)
+    village = models.CharField(max_length=20)
+    block = models.CharField(max_length=20)
+    city = models.CharField(max_length=20)
+    district = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    pincode = models.CharField(max_length=6)
     at_location_from = models.DateField()
     till_at_location = models.DateField(null=True, blank=True)
 
 class BasicInformation(models.Model):
-    first_name = models.CharField()
-    last_name = models.CharField()
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     mobile_no = PhoneNumberField()
     github_url = models.URLField()
     linkedin_url = models.URLField()
@@ -38,8 +38,8 @@ class BasicInformation(models.Model):
     alternate_mobile_no = PhoneNumberField()
     dob = models.DateField()
     whatsapp = PhoneNumberField()
-    created_at = models.DateField(auto_now_add = True)
-    updated_at = models.DateField(auto_now_add = True)
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now_add=True)
     permanent_address = models.ForeignKey(PermanentAddress, on_delete=models.CASCADE)
     
 
@@ -51,9 +51,9 @@ class FamilyDetails(models.Model):
         ("father", "Father"),
         ("mother", "Mother"),
     )
-    relation = models.CharField(choices = relation_choices)
-    first_name = models.CharField()
-    last_name = models.CharField()
+    relation = models.CharField(choices=relation_choices, max_length=20)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     dob = models.DateField()
     mobile_no = PhoneNumberField()
     email_id = models.EmailField()
@@ -63,13 +63,13 @@ class FamilyDetails(models.Model):
 
 class AttendedSchools(models.Model):
     marks_type = (
-        ('cgpa', 'CGPA')
+        ('cgpa', 'CGPA'),
         ('percentage', 'Percentage')
     )
     school_name = models.TextField()
     first_year = models.DateField()
     final_year = models.DateField()
-    marks_type = models.CharField(choices=marks_type)
+    marks_type = models.CharField(choices=marks_type, max_length=20)
     marks_optained = models.FloatField()
     location = models.TextField()
 
@@ -81,14 +81,15 @@ class EmployedCompanies(models.Model):
     description = models.TextField()
 
 class Projects(models.Model):
-    project_name = models.CharField()
+    project_name = models.CharField(max_length=20)
     url = models.URLField(null=1)
     description = models.TextField()
     associated_with = models.ForeignKey(EmployedCompanies, on_delete=models.CASCADE)
 
 class Skills(models.Model):
-    skill_name = models.CharField()
-    skill_level = models.IntegerField(default=8, choices=list(range(11)))
+    choices = tuple((level, str(level)) for level in range(11))
+    skill_name = models.CharField(max_length=20)
+    skill_level = models.IntegerField(default=8, choices=choices)
     associated_with_projects = models.ManyToManyField(Projects)
     associated_with_companies = models.ManyToManyField(EmployedCompanies)
 
