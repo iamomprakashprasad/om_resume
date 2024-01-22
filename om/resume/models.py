@@ -41,6 +41,7 @@ class BasicInformation(models.Model):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now_add=True)
     permanent_address = models.ForeignKey(PermanentAddress, on_delete=models.CASCADE)
+    about = models.TextField(default="")
     
 
 
@@ -75,6 +76,7 @@ class AttendedSchools(models.Model):
 
 class EmployedCompanies(models.Model):
     company_name = models.TextField()
+    company_url = models.URLField(default="")
     joined_at = models.DateField()
     current_company = models.BooleanField()
     last_date = models.DateField(null=True)
